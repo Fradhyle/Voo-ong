@@ -25,8 +25,6 @@
             - Microsoft Azure CentOS-based 7.7
             - NGINX 최신
             - NodeJS 최신
-            - IP: 52.141.4.140
-            - 주소: v.pdmnu.com
         - 구조
             - NGINX: 웹 프론트(요청 및 응답, Java 및 JavaScript 파일 프록시 처리)
             - NodeJS: Java 및 JavaScript 처리
@@ -37,8 +35,6 @@
         - 구성
             - Microsoft Azure Virtual Machine
             - Microsoft Azure CentOS-based 7.7
-            - IP: 52.141.4.140
-            - 주소: v.pdmnu.com
             - MySQL 최신
 3. 참고 자료
     - YUM을 이용한 MySQL 설치
