@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS `voo_ong` CASCADE;
+
+CREATE DATABASE `voo_ong`;
