@@ -1,0 +1,129 @@
+https://docs.cloudera.com/documentation/enterprise/latest/topics/introduction.html
+
+sudo yum install -y deltarpm epel-release yum-utils ntp
+
+sudo yum update
+
+sudo hostnamectl set-hostname hd01.pdmnu.com
+sudo hostnamectl set-hostname hd02.pdmnu.com
+sudo hostnamectl set-hostname hd03.pdmnu.com
+sudo hostnamectl set-hostname hd04.pdmnu.com
+sudo hostnamectl set-hostname hd05.pdmnu.com
+
+sudo vi /etc/hosts
+
+192.168.56.101    hd01.pdmnu.com    hd01
+192.168.56.102    hd02.pdmnu.com    hd02
+192.168.56.103    hd03.pdmnu.com    hd03
+192.168.56.104    hd04.pdmnu.com    hd04
+192.168.56.105    hd05.pdmnu.com    hd05
+
+sudo vi /etc/sysconfig/network
+
+HOSTNAME=hd01.pdmnu.com
+HOSTNAME=hd02.pdmnu.com
+HOSTNAME=hd03.pdmnu.com
+HOSTNAME=hd04.pdmnu.com
+HOSTNAME=hd05.pdmnu.com
+
+sudo systemctl disable firewalld && sudo systemctl stop firewalld
+
+sudo vi /etc/selinux/config
+
+SELINUX=permissive
+
+sudo systemctl start ntpd && sudo systemctl enable ntpd
+
+sudo ntpdate -u kr.pool.ntp.org
+
+sudo hwclock --systohc
+
+sudo sysctl -w vm.swappiness=10
+
+sudo vi /etc/sysctl.conf
+
+vm.swappiness=10
+
+sudo vi /etc/rc.local
+
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+
+sudo chmod +x /etc/rc.d/rc.local
+
+sudo vi /etc/security/limits.conf
+
+root             soft    nofile          65536
+root             hard    nofile          65536
+*                soft    nofile          65536
+*                hard    nofile          65536
+root             soft    nproc           32768
+root             hard    nproc           32768
+*                soft    nproc           32768
+*                hard    nproc           32768
+
+sudo wget https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/cloudera-manager.repo -P /etc/yum.repos.d/
+
+sudo yum install -y oracle-j2sdk1.8
+
+sudo yum install -y cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server postgresql-server
+
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+
+sudo python get-pip.py
+
+sudo pip install psycopg2==2.7.5 --ignore-installed
+
+sudo su root
+
+echo 'LC_ALL="en_US.UTF-8"' >> /etc/locale.conf
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+
+exit
+
+sudo su -l postgres -c "postgresql-setup initdb"
+
+sudo vi /var/lib/pgsql/data/pg_hba.conf
+
+host    all             all             127.0.0.1/32            md5
+host    all             all             127.0.0.1/32            ident
+host    all             all             10.1.0.0/24             md5
+host    all             all             10.1.0.0/24             ident
+
+sudo vi /var/lib/pgsql/data/postgresql.conf
+
+listen_addresses = '*'
+shared_buffers = 256MB
+wal_buffers = 8MB
+checkpoint_segments = 16
+checkpoint_completion_target = 0.9
+
+sudo systemctl restart postgresql && sudo systemctl enable postgresql
+
+sudo -u postgres psql
+
+CREATE ROLE scm LOGIN PASSWORD 'bigdata';
+CREATE ROLE amon LOGIN PASSWORD 'bigdata';
+CREATE ROLE rman LOGIN PASSWORD 'bigdata';
+CREATE ROLE hue LOGIN PASSWORD 'bigdata';
+CREATE ROLE hive LOGIN PASSWORD 'bigdata';
+CREATE ROLE sentry LOGIN PASSWORD 'bigdata';
+CREATE ROLE nav LOGIN PASSWORD 'bigdata';
+CREATE ROLE navms LOGIN PASSWORD 'bigdata';
+CREATE ROLE oozie LOGIN PASSWORD 'bigdata';
+
+CREATE DATABASE scm OWNER scm ENCODING 'UTF8';
+CREATE DATABASE amon OWNER amon ENCODING 'UTF8';
+CREATE DATABASE rman OWNER rman ENCODING 'UTF8';
+CREATE DATABASE hue OWNER hue ENCODING 'UTF8';
+CREATE DATABASE metastore OWNER hive ENCODING 'UTF8';
+CREATE DATABASE sentry OWNER sentry ENCODING 'UTF8';
+CREATE DATABASE nav OWNER nav ENCODING 'UTF8';
+CREATE DATABASE navms OWNER navms ENCODING 'UTF8';
+CREATE DATABASE oozie OWNER oozie ENCODING 'UTF8';
+
+ALTER DATABASE metastore SET standard_conforming_strings=off;
+ALTER DATABASE oozie SET standard_conforming_strings=off;
+
+sudo /opt/cloudera/cm/schema/scm_prepare_database.sh postgresql scm scm bigdata
