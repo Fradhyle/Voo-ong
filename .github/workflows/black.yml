@@ -33,6 +33,7 @@ jobs:
         with:
           src: "."
           jupyter: true
+          fail-on-changed: false
 
       - name: 변경사항 확인
         id: changes
