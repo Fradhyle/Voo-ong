@@ -37,6 +37,7 @@ jobs:
       - name: 변경사항 확인
         id: changes
         run: |
+          git status
           if [[ -n $(git status --porcelain) ]]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
@@ -50,7 +51,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b $BRANCH_NAME
-          git add .
+          git add --all
           git commit -m "Black으로 코드 자동 포맷"
           git push origin $BRANCH_NAME
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
