@@ -1,3 +1,5 @@
+"""네이버 영화를 크롤링하는 모듈입니다."""
+
 import os
 import random
 import re
