@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `mlens`.`ratings_genres`;
+DROP TABLE IF EXISTS `movielens`.`ratings_genres`;
 
-CREATE TABLE `mlens`.`ratings_genres` (
+CREATE TABLE `movielens`.`ratings_genres` (
     `user_id` INT
   ,  `action` INT
   ,  `adventure` INT
