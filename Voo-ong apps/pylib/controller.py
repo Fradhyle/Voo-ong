@@ -1,17 +1,9 @@
 # controller.py
 
-# 프로그램 시작 파일 설정
-if __name__ == "__main__":
-    import os
-
-    os.chdir("..")
-    import main
-
-    main.menu()
-
-from pylib.file_loader import FileToDF
-from pylib.settings_manager import SettingsManager
+import main
 import pylib.to_db as to_db
+from pylib.configman import ConfigMan
+from pylib.file_loader import FileToDF
 
 
 def set_rdb():
@@ -46,10 +38,8 @@ def set_rdb():
             print("잘못된 값을 입력하였습니다. 다시 입력하세요.")
             continue
         if choice == 1:
-            sm = SettingsManager()
-            sm.save_rdb_setting(
-                profile_name, address, port, username, password, database
-            )
+            cm = ConfigMan()
+            cm.rdb_config(profile_name, address, port, username, password, database)
             return
         elif choice == 2:
             print("설정 저장을 취소하였습니다. 메인 메뉴로 돌아갑니다.")
@@ -87,14 +77,14 @@ def set_file_path():
             if regex_result:
                 path = path_input.rstrip("\\")
                 file_path = path.replace("\\", "/")
-                sm = SettingsManager()
-                sm.save_file_path_setting(profile_name, file_path)
+                cm = ConfigMan()
+                cm.save_file_path_setting(profile_name, file_path)
                 return
             else:
                 file_path = path_input.replace("\\", "/")
                 file_path = file_path + "/"
-                sm = SettingsManager()
-                sm.save_file_path_setting(profile_name, file_path)
+                cm = ConfigMan()
+                cm.save_file_path_setting(profile_name, file_path)
                 return
         elif choice == 2:
             print("설정 저장을 취소하였습니다. 메인 메뉴로 돌아갑니다.\n")
@@ -187,8 +177,8 @@ def set_user_agent():
 
     webbrowser.open("https://www.whatismybrowser.com/detect/what-is-my-user-agent")
     user_agent = input(">>> ")
-    sm = SettingsManager()
-    iheaders = sm.save_ua_info(user_agent)
+    cm = ConfigMan()
+    iheaders = cm.save_ua_info(user_agent)
     return iheaders
 
 
@@ -241,3 +231,10 @@ def crawl_select(settings):
         else:
             print("잘못 선택하였습니다. 다시 시도하세요.")
             continue
+
+
+# 모듈 직접 실행 방지
+if __name__ == "__main__":
+    print("이 파일을 직접 실행할 수 없습니다.")
+    print("main.py를 실행하세요.")
+    raise SystemExit

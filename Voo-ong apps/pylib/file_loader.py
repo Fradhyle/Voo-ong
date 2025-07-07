@@ -1,23 +1,14 @@
-# file_loader.py
-# 파일을 pandas.DataFrame 객체로 변환해주는 모듈
-
-
-# 프로그램 시작 파일 설정
-if __name__ == "__main__":
-    import os
-
-    os.chdir("..")
-    import main
-
-    main.menu()
+"""파일을 pandas.DataFrame 객체로 변환해주는 모듈"""
 
 import os
+
 import pandas as pd
 from pandas import errors
 
 
-# 파일을 pandas.DataFrame 객체로 변환해주는 클래스
 class FileToDF:
+    """파일을 pandas.DataFrame 객체로 변환해주는 클래스"""
+
     # 클래스를 불러올 때 실행할 변수수선언
     # JSON에서 불러온 settings 딕셔너리 입력 필수
     def __init__(self, settings):
@@ -270,3 +261,10 @@ class FileToDF:
                 else:
                     print("잘못 선택하였습니다. 다시 시도하세요.")
                     continue
+
+
+# 모듈 직접 실행 방지
+if __name__ == "__main__":
+    print("이 파일을 직접 실행할 수 없습니다.")
+    print("main.py를 실행하세요.")
+    raise SystemExit
