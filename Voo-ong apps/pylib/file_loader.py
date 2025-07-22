@@ -4,6 +4,7 @@ import os
 
 import pandas as pd
 from pandas import errors
+from pylib.config_manager import ConfigManager
 
 
 class FileToDF:
@@ -11,17 +12,18 @@ class FileToDF:
 
     # 클래스를 불러올 때 실행할 변수수선언
     # JSON에서 불러온 settings 딕셔너리 입력 필수
-    def __init__(self, settings):
+    def __init__(self):
+        cm = ConfigManager()
         # 받아온 settings 딕셔너리를 멤버 변수에 대입
-        self.settings = settings
+        self.settings = cm.load()
         # 받아온 settings에서 파일 경로 설정값 검색, 대입
         try:
             self.file_path_settings = self.settings["file_path_settings"]
         except KeyError:
-            print("RDB 서버 설정을 찾을 수 없습니다. RDB 서버 설정 후 다시 시도하세요.")
-            import main
-
-            main.menu()
+            print(
+                "파일 경로 설정을 찾을 수 없습니다. 파일 경로 설정 후 다시 시도하세요."
+            )
+            return
         choice = 0
         while True:
             try:
@@ -220,7 +222,7 @@ class FileToDF:
             print()
             # DataFrame 생성
             try:
-                df = pd.read_table(
+                df: pd.DataFrame = pd.read_table(
                     self.file_path + selected_file,
                     sep="\t",
                     quoting=3,
@@ -230,9 +232,8 @@ class FileToDF:
                 )
             except errors.ParserError:
                 print("오류가 발생하였습니다. 파일을 확인한 후 다시 시도하세요.")
-                import main
-
-                main.menu()
+                print("프로그램을 종료합니다.")
+                raise SystemExit
             # 파일명으로 RDB 테이블명 생성
             table_name = selected_file.replace(".tsv", "").replace(".", "_")
             print("입력 예정 테이블 이름:", table_name)

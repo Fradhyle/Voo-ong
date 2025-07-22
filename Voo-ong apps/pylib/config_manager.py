@@ -3,19 +3,17 @@
 
 import json
 from json.decoder import JSONDecodeError
+from pathlib import Path
 
 
-class ConfigMan:
-    def __init__(self):
-        self.config_file = "config.json"
+class ConfigManager:
+    def __init__(self, config_file=None):
+        self.config_file = config_file or "config.json"
         self.config = self.load()
 
     def load(self):
-        with open(
-            self.config_file,
-            mode="a+",
-            encoding="utf-8",
-        ) as f:
+        """클래스에 선언된 config_file에서 설정을 불러옵니다."""
+        with open(file=self.config_file, mode="a+", encoding="utf-8") as f:
             try:
                 self.config = json.load(f)
             except JSONDecodeError:
@@ -24,26 +22,18 @@ class ConfigMan:
                 return self.config
 
     def save(self, config):
+        """클래스에 선언된 config_file에 설정을 저장합니다."""
         self.config = config
-        with open(
-            self.config_file,
-            mode="w",
-            encoding="utf-8",
-        ) as f:
-            json.dump(
-                config,
-                f,
-                ensure_ascii=False,
-                indent=4,
-            )
+        with open(self.config_file, mode="w", encoding="utf-8") as f:
+            json.dump(config, f, ensure_ascii=False, indent=4)
+        return self
 
     def rdb_config(self, profile_name, address, port, username, password, database):
-        rdb_config = {}
         # 기존 설정이 있다면 기존 설정을 같이 불러와서 저장하도록 함
         try:
             rdb_config = self.config["rdb_config"]
         except KeyError:
-            pass
+            rdb_config = {}
 
         rdb_config[profile_name] = {
             "address": address,

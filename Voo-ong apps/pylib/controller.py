@@ -1,8 +1,8 @@
-# controller.py
+import webbrowser
 
 import main
 import pylib.to_db as to_db
-from pylib.configman import ConfigMan
+from pylib.config_manager import ConfigManager
 from pylib.file_loader import FileToDF
 
 
@@ -38,7 +38,7 @@ def set_rdb():
             print("잘못된 값을 입력하였습니다. 다시 입력하세요.")
             continue
         if choice == 1:
-            cm = ConfigMan()
+            cm = ConfigManager()
             cm.rdb_config(profile_name, address, port, username, password, database)
             return
         elif choice == 2:
@@ -77,13 +77,13 @@ def set_file_path():
             if regex_result:
                 path = path_input.rstrip("\\")
                 file_path = path.replace("\\", "/")
-                cm = ConfigMan()
+                cm = ConfigManager()
                 cm.save_file_path_setting(profile_name, file_path)
                 return
             else:
                 file_path = path_input.replace("\\", "/")
                 file_path = file_path + "/"
-                cm = ConfigMan()
+                cm = ConfigManager()
                 cm.save_file_path_setting(profile_name, file_path)
                 return
         elif choice == 2:
@@ -129,12 +129,12 @@ def show_settings(settings):
     finally:
         print()
     try:
-        iheaders = settings["iheaders"]
+        headers = settings["headers"]
     except KeyError:
         print("헤더 설정이 없습니다.")
     else:
         print("헤더 설정")
-        print("User agent:", iheaders["user-agent"])
+        print("User agent:", headers["user-agent"])
     finally:
         print()
 
@@ -173,19 +173,18 @@ def set_user_agent():
     import time
 
     time.sleep(5)
-    import webbrowser
 
     webbrowser.open("https://www.whatismybrowser.com/detect/what-is-my-user-agent")
     user_agent = input(">>> ")
-    cm = ConfigMan()
-    iheaders = cm.save_ua_info(user_agent)
-    return iheaders
+    cm = ConfigManager()
+    headers = cm.save_ua_info(user_agent)
+    return headers
 
 
 # 크롤링할 정보 선택
 def crawl_select(settings):
     try:
-        settings["iheaders"]
+        settings["headers"]
     except KeyError:
         print("헤더 설정을 찾을 수 없습니다. 헤더 설정 후 다시 시도하세요.")
         import main

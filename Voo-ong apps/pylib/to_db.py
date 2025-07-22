@@ -1,17 +1,7 @@
 # to_db.py
 
-# 프로그램 시작 파일 설정
-if __name__ == "__main__":
-    import os
-
-    os.chdir("..")
-    import main
-
-    main.menu()
-
-from sqlalchemy import create_engine
 import sqlalchemy
-import math
+from sqlalchemy import create_engine
 
 
 def create_table(settings, table_name, df):
@@ -69,28 +59,13 @@ def create_table(settings, table_name, df):
             break
         elif choice == 2:
             print("처음부터 다시 시작하시기 바랍니다.")
-            print("메인 메뉴로 돌아갑니다.")
-            import os
-
-            os.chdir("..")
-            import main
-
-            main.menu()
+            print("프로그램을 종료합니다.")
+            raise SystemExit
         else:
             print("잘못 선택하였습니다. 다시 시도하세요.")
             continue
     _columns = df.columns
-    max_length = {}
     dtypes = {}
-    try:
-        from langdetect import detect
-    except ModuleNotFoundError:
-        print("필요한 모듈이 발견되지 않아서 설치를 수행합니다.")
-        import os
-
-        os.system("pip install langdetect")
-    import numpy as np
-
     for _ in _columns:
         print(f"컬럼명 {_}에 대한 연산을 수행중입니다.")
         dtypes[_] = sqlalchemy.types.TEXT()
@@ -168,3 +143,10 @@ def create_table(settings, table_name, df):
         import main
 
         main.menu()
+
+
+# 모듈 직접 실행 방지
+if __name__ == "__main__":
+    print("이 파일을 직접 실행할 수 없습니다.")
+    print("main.py를 실행하세요.")
+    raise SystemExit

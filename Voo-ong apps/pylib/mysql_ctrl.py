@@ -1,35 +1,14 @@
-# mysql_ctrl.py
-# MySQL에서 제공하는 MySQL Connector/Python을 이용하여 MySQL 작업을 실행할 수 있는 모듈
+"""MySQL에서 제공하는 MySQL Connector/Python을 이용하여 MySQL 작업을 실행할 수 있는 모듈"""
 
-try:
-    from mysql.connector import errorcode
-    import mysql.connector
-except ModuleNotFoundError:
-    print("MySQL Connector/Python이 설치되지 않았습니다.")
-    print("설치를 시도합니다.")
-    import os
-
-    os.system("pip install mysql-connector-python")
-finally:
-    from mysql.connector import errorcode
-    import mysql.connector
-
-# 프로그램 시작 파일 설정
-if __name__ == "__main__":
-    import os
-
-    os.chdir("..")
-    import main
-
-    main.menu()
+import mysql.connector
+from mysql.connector import errorcode
+from pylib.config_manager import ConfigManager
 
 
 class MySqlConn:
     def __init__(self):
-        from pylib.json_manager import JsonManager
-
-        jm = JsonManager()
-        self.settings = jm.json_load()
+        cm = ConfigManager()
+        self.settings = cm.load()
         self.rdb_settings = self.settings["rdb_settings"]
         self.cnx = None
 
@@ -49,6 +28,8 @@ class MySqlConn:
             except ValueError:
                 print("잘못된 값을 입력하였습니다. 다시 시도하세요.")
                 continue
+            else:
+                break
         selected_key = list(self.rdb_settings.keys())[choice]
         address = self.rdb_settings[selected_key]["address"]
         port = self.rdb_settings[selected_key]["port"]
@@ -76,13 +57,8 @@ class MySqlConn:
                 break
             elif choice == 2:
                 print("처음부터 다시 시작하시기 바랍니다.")
-                print("메인 메뉴로 돌아갑니다.")
-                import os
-
-                os.chdir("..")
-                import main
-
-                main.menu()
+                print("프로그램을 종료합니다.")
+                raise SystemExit
             else:
                 print("잘못 선택하였습니다. 다시 시도하세요.")
                 continue
@@ -137,3 +113,10 @@ class MySqlConn:
         finally:
             print(str(cursor.rowcount) + "개 행이 처리되었습니다.")
             self.cnx.commit()
+
+
+# 모듈 직접 실행 방지
+if __name__ == "__main__":
+    print("이 파일을 직접 실행할 수 없습니다.")
+    print("main.py를 실행하세요.")
+    raise SystemExit
