@@ -1,0 +1,11 @@
+beautifulsoup4
+keras
+mysql-connector-python
+# mysqlx-connector-python
+pandas
+PyHive
+requests
+scikit-learn
+SQLAlchemy
+tensorflow
+tqdm
