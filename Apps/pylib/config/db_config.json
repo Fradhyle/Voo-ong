@@ -1,0 +1,9 @@
+{
+    "mysql0": {
+        "host": "pc.pdmnu.com",
+        "port": 3306,
+        "user": "root",
+        "password": "!panda8902",
+        "database": "imdb"
+    }
+}
