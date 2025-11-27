@@ -1,10 +1,28 @@
-from concurrent.futures import ProcessPoolExecutor, as_completed
-from pyhive import hive
-from sqlalchemy import create_engine
-from tqdm import tqdm
-import os
+import sys
+
 import numpy as np
 import pandas as pd
+from pyhive import hive
+from sqlalchemy import create_engine
+from tqdm.auto import tqdm
+
+# # 데이터베이스 연결
+# try:
+#     hive_cnx = hive.Connection(
+#         host="hd02.pdmnu.com",
+#         username="sweetbarrow",
+#         database="mlens",
+#         auth="NOSASL",
+#     )
+
+#     mysql_cnx = create_engine(
+#         "mysql+pymysql://root:!panda8902@pc.pdmnu.com:3306/mlens", echo=False
+#     )
+# except Exception as e:
+#     print(f"Database connection error: {e}")
+#     sys.exit(1)
+# else:
+#     print("Database connections established successfully.")
 
 
 def ratings_aggregator(func_args):
@@ -104,47 +122,28 @@ if __name__ == "__main__":
             },
             inplace=True,
         )
+
+        print("----- Ratings Rescaled -----")
         print(ratings_rescaled.head())
-        print()
 
         movies_genres_onehot = pd.read_sql(
             "SELECT * FROM mlens.movies_genres_onehot", hive_cnx
         )
+        print("----- Movies Genres Onehot -----")
         print(movies_genres_onehot.head())
-        print()
 
-        new_columns = {
-            "movies_genres_onehot.movie_id": "movie_id",
-            "movies_genres_onehot.title": "title",
-            "movies_genres_onehot.action": "action",
-            "movies_genres_onehot.adventure": "adventure",
-            "movies_genres_onehot.animation": "animation",
-            "movies_genres_onehot.children": "children",
-            "movies_genres_onehot.comedy": "comedy",
-            "movies_genres_onehot.crime": "crime",
-            "movies_genres_onehot.documentary": "documentary",
-            "movies_genres_onehot.drama": "drama",
-            "movies_genres_onehot.fantasy": "fantasy",
-            "movies_genres_onehot.film_noir": "film_noir",
-            "movies_genres_onehot.horror": "horror",
-            "movies_genres_onehot.imax": "imax",
-            "movies_genres_onehot.musical": "musical",
-            "movies_genres_onehot.mystery": "mystery",
-            "movies_genres_onehot.romance": "romance",
-            "movies_genres_onehot.sci_fi": "sci_fi",
-            "movies_genres_onehot.thriller": "thriller",
-            "movies_genres_onehot.war": "war",
-            "movies_genres_onehot.western": "western",
-        }
+        movies_genres_onehot.columns = movies_genres_onehot.columns.str.replace(
+            "movies_genres_onehot.", ""
+        )
 
-        movies_genres_onehot.rename(columns=new_columns, inplace=True)
+        print("----- Movies Genres Onehot Columns Renamed -----")
         print(movies_genres_onehot.head())
-        print()
 
         movies_genres_onehot.sort_values("movie_id", inplace=True, ignore_index=True)
+        print("----- Movies Genres Onehot Sorted by movie_id -----")
         print(movies_genres_onehot.head())
-        print()
 
+        print("----- Movies Genres Onehot title dropped -----")
         movies_genres_onehot_new = movies_genres_onehot.drop("title", axis=1)
         print(movies_genres_onehot_new.head())
         print()
