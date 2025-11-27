@@ -1,0 +1,19 @@
+name: Voo-ong
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - beautifulsoup4
+  - hypothesis
+  - keras
+  - mysql-connector-python
+  - numpy
+  - pandas
+  - pyhive
+  - pytest
+  - requests
+  - scikit-learn
+  - sqlalchemy
+  - tensorflow
+  - tqdm
