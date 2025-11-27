@@ -1,9 +1,11 @@
 beautifulsoup4
+hypothesis
 keras
 mysql-connector-python
-# mysqlx-connector-python
+numpy
 pandas
 PyHive
+pytest
 requests
 scikit-learn
 SQLAlchemy
