@@ -65,4 +65,4 @@
 ### 영화 추천을 위한 협업 필터링
 - [Collaborative Filtering for Movie Recommendations](https://keras.io/examples/structured_data/collaborative_filtering_movielens/)
 ### 프랙탈 확정을 통한 확장 가능하고 현실적인 추천 데이터셋
-- [Scalable Realistic Recommendation Datasets through Fractal Expansions](https://arxiv.org/abs/1901.08910)
+- ![Static Badge](https://img.shields.io/badge/Scalable_Realistic_Recommendation_Datasets_through_Fractal_Expansions-red?style=flat&logo=arxiv&label=arXiv&link=https%3A%2F%2Farxiv.org%2Fabs%2F1901.08910)
