@@ -62,3 +62,5 @@
 - [검색 API 영화 검색 개발가이드](https://developers.naver.com/docs/search/movie/)
 ### 리뷰 텍스트 분석을 위한 데이터셋 구축 
 - [Sentiment Analysis](http://ai.stanford.edu/~amaas/data/sentiment/)
+### 영화 추천을 위한 협업 필터링
+- [Collaborative Filtering for Movie Recommendations](https://keras.io/examples/structured_data/collaborative_filtering_movielens/)
