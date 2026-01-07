@@ -405,13 +405,16 @@
 	</section>
 
 	<footer>
-		<p>&copy; 2024 Voo-ong Project | Team 3quad. All Rights Reserved.</p>
+		<p>&copy; <span id="year"></span> Voo-ong Project | Team 3quad. All Rights Reserved.</p>
 		<p><a href="https://github.com/Fradhyle/Voo-ong" style="color: #aaa; text-decoration: none;">View on GitHub</a>
 		</p>
 	</footer>
 
 	<script>
-		// Smooth scrolling for navigation links
+		// 1. 자동 연도 업데이트 스크립트
+		document.getElementById('year').textContent = new Date().getFullYear();
+
+		// 2. (기존) 스무스 스크롤 스크립트
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 			anchor.addEventListener('click', function (e) {
 				e.preventDefault();
