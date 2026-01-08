@@ -254,6 +254,84 @@
 
 			/* Mobile menu implementation omitted for simplicity */
 		}
+
+		/* --- PDF 저장 및 인쇄를 위한 스타일 (Print CSS) --- */
+		@media print {
+
+			/* 1. 불필요한 요소 숨기기 */
+			header,
+			.btn,
+			footer,
+			.print-btn-container {
+				display: none !important;
+			}
+
+			/* 2. 잉크 절약 및 문서 가독성을 위한 색상 반전 */
+			body,
+			section,
+			.tech-list,
+			.feature-card,
+			.timeline-item {
+				background-color: white !important;
+				color: black !important;
+				box-shadow: none !important;
+				border: 1px solid #ddd !important;
+				/* 경계선 추가 */
+			}
+
+			/* 3. 텍스트 및 링크 스타일 정리 */
+			h1,
+			h2,
+			h3,
+			p,
+			li {
+				color: black !important;
+				text-shadow: none !important;
+			}
+
+			a {
+				text-decoration: none;
+				color: black !important;
+			}
+
+			/* 4. 레이아웃 조정 (종이 폭에 맞춤) */
+			section {
+				padding: 20px 0 !important;
+				page-break-inside: avoid;
+				/* 섹션 중간이 잘리지 않도록 */
+			}
+
+			.features-grid,
+			.tech-categories {
+				display: block !important;
+				/* 그리드를 풀고 세로로 나열 (선택사항) */
+			}
+
+			.feature-card,
+			.tech-category {
+				margin-bottom: 20px;
+				page-break-inside: avoid;
+			}
+
+			/* 5. 로고 크기 조정 */
+			img {
+				max-width: 150px !important;
+			}
+
+			/* 6. 타이틀 페이지 강제 여백 */
+			#home {
+				height: 300px !important;
+				/* 히어로 섹션 높이 줄이기 */
+				background: none !important;
+				/* 배경 이미지 제거 */
+				color: black !important;
+			}
+
+			#home h1 {
+				font-size: 3rem;
+				color: black;
+			}
+		}
 	</style>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
 	<link rel="icon" type="image/png" href="Assets/Images/Logo.png">
