@@ -13,17 +13,18 @@
 ## 서버 환경
 ### 크롤러
 #### 구성
-- Microsoft Azure Virtual Machine
-- Microsoft Azure CentOS-based 7.7
+- ~~Microsoft Azure Virtual Machine~~
+- ~~Microsoft Azure CentOS-based 7.7~~
 - Python (Miniforge) 최신
+- Ubuntu 최신 (Latest)
 ### 웹 서버
 #### 강사님 권장사항
 1. Flask 단독
 2. 웹 서버 + Flask(기계 학습 모델)
 3. 자바 WAS(ex. Apache Tomcat) + Flask(기계 학습 모델)
 #### 우리 프로젝트 구성
-- Microsoft Azure Virtual Machine
-- Microsoft Azure CentOS-based 7.7
+- ~~Microsoft Azure Virtual Machine~~
+- ~~Microsoft Azure CentOS-based 7.7~~
 - NGINX 최신
 - NodeJS 최신
 - 구조
@@ -34,15 +35,16 @@
 - Apache Ambari 또는 Cloudera 활용
 ### RDB 서버 (MySQL 또는 MariaDB)
 #### 구성
-- Microsoft Azure Virtual Machine
-- Microsoft Azure CentOS-based 7.7
+- ~~Microsoft Azure Virtual Machine~~
+- ~~Microsoft Azure CentOS-based 7.7~~
 - MySQL 최신
 ## 참고 자료
 ### Python Miniforge 배포판
 - [conda-forge](https://conda-forge.org/)
 - [conda-forge Installer](https://conda-forge.org/download/)
-### YUM을 이용한 MySQL 설치
-- [MySQL :: A Quick Guide to Using the MySQL Yum Repository](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
+### MySQL Repository 추가를 통한 MySQL 설치
+- [MySQL :: Installing MySQL on Linux Using the MySQL Yum Repository](https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/)
+- [MySQL :: Installing MySQL on Linux Using the MySQL APT Repository](https://dev.mysql.com/doc/refman/9.5/en/linux-installation-apt-repo.html)
 ### IMDB
 - [IMDb](https://imdb.com)
 - [IMDb Datasets](https://developer.imdb.com/non-commercial-datasets/)
