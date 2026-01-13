@@ -354,8 +354,11 @@
 
 	<section id="home">
 		<h1>Voo-ong</h1>
-		<p>타인의 평점을 배제한<br>오직 나만을 위한 개인 맞춤 영화 추천 시스템</p>
-		<a href="#about" class="btn">자세히 보기</a>
+		<p>감독과 주연 배우를 넘어,<br>음악·촬영·무술 등 <strong>제작진의 숨결</strong>까지 분석하는 취향 발견</p>
+
+		<div class="btn-group">
+			<a href="#about" class="btn">자세히 보기</a>
+		</div>
 	</section>
 
 	<section id="about">
@@ -363,8 +366,9 @@
 		<div style="text-align: center; margin-bottom: 40px;">
 			<img src="Assets/Images/Logo.png" alt="Voo-ong Logo"
 				style="max-width: 200px; margin-bottom: 20px; border-radius: 10px;">
-			<p><strong>Voo-ong</strong>은 빅데이터 분산 처리와 머신러닝 기술을 활용하여<br>
-				사용자 개인의 취향을 정밀하게 분석하는 영화 추천 시스템입니다.</p>
+
+			<p><strong>Voo-ong</strong>은 영화를 구성하는 수많은 제작진(Crew)의 데이터를 심층 분석하여<br>
+				사용자가 미처 발견하지 못한 취향의 디테일(영상미, OST, 액션 스타일 등)을 찾아내는 추천 시스템입니다.</p>
 			<br>
 			<p style="color: #666; font-size: 0.9rem;">
 				💡 <strong>Logo Concept</strong><br>
@@ -374,16 +378,16 @@
 		</div>
 		<div class="features-grid">
 			<div class="feature-card">
-				<h3>🔍 개인화 추천</h3>
-				<p>타인의 리뷰와 평점에 의존하지 않고, 오직 사용자의 개인 평가 데이터만을 분석하여 추천합니다.</p>
+				<h3>🎬 제작진(Crew) 중심</h3>
+				<p>감독과 주연 배우뿐만 아니라, 음악, 촬영, 조명, 무술 감독 등 영화의 '결'을 만드는 숨은 주역들을 분석합니다.</p>
 			</div>
 			<div class="feature-card">
-				<h3>💾 빅데이터 처리</h3>
-				<p>Hadoop 생태계(HDFS, Hive, Sqoop)를 구축하여 2,800만 건 이상의 대용량 평점 데이터를 분산 처리합니다.</p>
+				<h3>💾 방대한 데이터 처리</h3>
+				<p>단순 평점이 아닌, 영화 크레딧(Credit)의 방대한 인물 정보를 Hadoop 생태계로 수집 및 분산 처리합니다.</p>
 			</div>
 			<div class="feature-card">
-				<h3>🤖 머신 러닝</h3>
-				<p>TensorFlow와 Keras를 활용한 다중 라벨 분류 모델을 통해 사용자가 선호할 장르를 예측합니다.</p>
+				<h3>🔍 취향의 재발견</h3>
+				<p>"나는 한스 짐머의 웅장함과 로저 디킨스의 색감을 좋아해"와 같은 구체적이고 섬세한 취향을 찾아냅니다.</p>
 			</div>
 		</div>
 	</section>
@@ -393,20 +397,25 @@
 		<div class="features-grid">
 			<div class="feature-card" style="border-top: 5px solid #e74c3c;">
 				<h3>The Problem</h3>
-				<ul style="text-align: left; padding-left: 20px;">
-					<li>기존 시스템은 타인의 평점에 큰 영향을 받음</li>
-					<li>유명하지 않은 영화는 추천받기 어려움 (Long-tail 문제)</li>
-					<li>단순 평점 기반 추천의 낮은 정확도</li>
-					<li>"내가 진짜 좋아하는 장르가 뭐지?"에 대한 답을 찾기 어려움</li>
+				<ul style="text-align: left; padding-left: 20px; line-height: 1.8;">
+					<li><strong>제한된 정보:</strong> 기존 추천은 주로 감독이나 주연 배우(Star Power)에만 의존함</li>
+					<li><strong>스타일 무시:</strong> 영화의 분위기를 결정하는 음악, 촬영 기법, 액션 합 등은 고려되지 않음</li>
+					<li><strong>취향의 불일치:</strong> "배우는 좋은데 영화 때깔(영상미)이 내 스타일이 아냐"라는 경험 발생</li>
+					<li><strong>Hidden Gem 누락:</strong> 유명하지 않은 배우가 나와도 내 취향의 제작진이 만든 명작을 놓침</li>
 				</ul>
 			</div>
 			<div class="feature-card" style="border-top: 5px solid #2ecc71;">
 				<h3>The Solution</h3>
-				<ul style="text-align: left; padding-left: 20px;">
-					<li><strong>타인 리뷰 배제:</strong> 순수 개인 평가 기반 시스템 개발</li>
-					<li><strong>데이터 수집:</strong> IMDb, MovieLens 데이터 및 네이버 영화 크롤링</li>
-					<li><strong>태그화:</strong> 영화 정보 태그화 및 사용자 평가 매핑</li>
-					<li><strong>피드백 루프:</strong> 추천 결과에 대한 재평가를 학습에 반영</li>
+				<ul style="text-align: left; padding-left: 20px; line-height: 1.8;">
+					<li><strong>데이터 확장 (Crew Expansion):</strong>
+						<ul>
+							<li>🎼 <strong>음악 감독:</strong> 선호하는 OST 분위기 분석</li>
+							<li>🎥 <strong>촬영 감독:</strong> 색감, 앵글 등 영상미 취향 분석</li>
+							<li>🥋 <strong>무술 감독:</strong> 선호하는 액션 스타일(현실적 vs 화려함) 매칭</li>
+						</ul>
+					</li>
+					<li><strong>관계형 분석:</strong> 특정 제작진 조합(Director + Cinematographer)과 사용자 평점의 상관관계 학습</li>
+					<li><strong>정밀 타겟팅:</strong> "이 촬영감독이 참여한 다른 영화"를 추천 목록으로 제시</li>
 				</ul>
 			</div>
 		</div>
@@ -474,7 +483,7 @@
 			</div>
 			<div class="timeline-item">
 				<h3>3. 데이터 수집 및 전처리</h3>
-				<p>IMDb, MovieLens 데이터 다운로드 및 네이버 영화 크롤링. 데이터 정제, 장르 One-hot Encoding, 평점 MinMax Scaling 수행.</p>
+				<p>IMDb, MovieLens에서 Credit(제작진) 데이터 크롤링. 음악/촬영/무술 감독 등 주요 스태프 정보 정제 및 Tagging, One-hot Encoding 수행.</p>
 			</div>
 			<div class="timeline-item">
 				<h3>4. 머신 러닝 모델 개발</h3>
