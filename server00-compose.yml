@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # 데이터 적재용 메인 DB (PostgreSQL 16)
+  postgres-db:
+    image: postgres:16
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ai_user
+      POSTGRES_PASSWORD: ai_password
+      POSTGRES_DB: mlens
+      TZ: Asia/Seoul
+    ports:
+      - "5432:5432" # 다른 VM(크롤러)에서 접근할 수 있도록 포트 개방
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # 하둡 마스터 노드 (NameNode)
+  hadoop-namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-namenode
+    restart: always
+    ports:
+      - "9870:9870" # HDFS Web UI
+      - "9000:9000" # HDFS 내부 통신 및 클라이언트 접근용
+    environment:
+      - CLUSTER_NAME=voo_ong_cluster
+      - TZ=Asia/Seoul
+    volumes:
+      - namenode_data:/hadoop/dfs/name
+
+volumes:
+  pgdata:
+  namenode_data:

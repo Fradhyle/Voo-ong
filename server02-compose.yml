@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  hadoop-datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: hadoop-datanode
+    restart: always
+    environment:
+      # 반드시 VM 1(마스터 노드)의 IP 주소를 지정하여 클러스터에 연결되도록 해야 합니다.
+      - CORE_CONF_fs_defaultFS=hdfs://<VM_1의_IP_주소>:9000
+      - TZ=Asia/Seoul
+    volumes:
+      - datanode_data:/hadoop/dfs/data
+
+volumes:
+  datanode_data:

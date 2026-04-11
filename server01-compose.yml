@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  crawler:
+    build: .
+    container_name: crawler
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+      # VM 1(마스터)의 실제 IP 주소를 환경 변수로 주입하여 코드 내에서 사용하도록 설정
+      - DB_HOST=192.168.0.10  
+      - HADOOP_HOST=192.168.0.10
+    volumes:
+      - .:/app
