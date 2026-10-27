@@ -1,0 +1,761 @@
+:root {
+	--bg-dark: #0b1120;
+	--bg-slide: #0f172a;
+	--bg-card: #1e293b;
+	--bg-card-alt: #162032;
+	--border-color: #334155;
+	--text-main: #f8fafc;
+	--text-muted: #94a3b8;
+	--accent-primary: #38bdf8;
+	--accent-secondary: #f43f5e;
+	--accent-green: #10b981;
+	--accent-amber: #f59e0b;
+	--accent-purple: #a855f7;
+	--slide-max-w: 1240px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+	background-color: var(--bg-dark);
+	color: var(--text-main);
+}
+
+code,
+pre,
+.mono {
+	font-family: 'JetBrains Mono', monospace;
+}
+
+/* Pure CSS Mode Toggle (PPT Snap Mode vs Free Scroll Mode) */
+.mode-checkbox {
+	display: none;
+}
+
+.deck-wrapper {
+	height: 100vh;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+}
+
+#toggle-scroll-mode:checked~.deck-wrapper {
+	height: auto;
+	overflow-y: visible;
+	scroll-snap-type: none;
+}
+
+/* Top Fixed Header (PPT Controller Bar) */
+.top-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 60px;
+	background: rgba(11, 17, 32, 0.88);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 28px;
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	text-decoration: none;
+	color: var(--text-main);
+	font-weight: 800;
+	font-size: 1.15rem;
+	letter-spacing: -0.02em;
+}
+
+.brand img {
+	width: 34px;
+	height: 34px;
+	border-radius: 8px;
+	background: #fff;
+	padding: 2px;
+}
+
+.brand span.sub {
+	font-size: 0.78rem;
+	font-weight: 500;
+	color: var(--accent-primary);
+	background: rgba(56, 189, 248, 0.12);
+	border: 1px solid rgba(56, 189, 248, 0.3);
+	padding: 2px 8px;
+	border-radius: 999px;
+}
+
+.top-nav {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	list-style: none;
+}
+
+.top-nav a {
+	color: var(--text-muted);
+	text-decoration: none;
+	font-size: 0.84rem;
+	font-weight: 500;
+	padding: 6px 12px;
+	border-radius: 6px;
+	transition: all 0.2s ease;
+}
+
+.top-nav a:hover {
+	color: var(--text-main);
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.top-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.mode-switch-label {
+	cursor: pointer;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--accent-primary);
+	background: rgba(56, 189, 248, 0.1);
+	border: 1px solid rgba(56, 189, 248, 0.35);
+	padding: 6px 12px;
+	border-radius: 6px;
+	transition: all 0.2s;
+	user-select: none;
+}
+
+.mode-switch-label:hover {
+	background: rgba(56, 189, 248, 0.2);
+}
+
+.mode-switch-label .when-snap {
+	display: inline;
+}
+
+.mode-switch-label .when-scroll {
+	display: none;
+}
+
+#toggle-scroll-mode:checked~.top-bar .mode-switch-label .when-snap {
+	display: none;
+}
+
+#toggle-scroll-mode:checked~.top-bar .mode-switch-label .when-scroll {
+	display: inline;
+}
+
+.gh-btn {
+	text-decoration: none;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: #fff;
+	background: #2563eb;
+	padding: 6px 14px;
+	border-radius: 6px;
+	transition: background 0.2s;
+}
+
+.gh-btn:hover {
+	background: #1d4ed8;
+}
+
+/* Right-side PPT Slide Navigation Dots */
+.slide-dots {
+	position: fixed;
+	right: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 999;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background: rgba(15, 23, 42, 0.75);
+	padding: 12px 8px;
+	border-radius: 999px;
+	border: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+.slide-dots a {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--border-color);
+	display: block;
+	position: relative;
+	transition: all 0.25s ease;
+}
+
+.slide-dots a:hover {
+	background: var(--accent-primary);
+	transform: scale(1.35);
+}
+
+.slide-dots a::before {
+	content: attr(data-label);
+	position: absolute;
+	right: 22px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: #0f172a;
+	color: var(--text-main);
+	font-size: 0.75rem;
+	padding: 4px 10px;
+	border-radius: 4px;
+	border: 1px solid var(--border-color);
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s;
+}
+
+.slide-dots a:hover::before {
+	opacity: 1;
+}
+
+/* Slide Layout (16:9 Presentation Feel) */
+.slide {
+	min-height: 100vh;
+	width: 100%;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+	padding: 84px 48px 48px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	border-bottom: 1px solid rgba(51, 65, 85, 0.45);
+	background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.06), transparent 45%),
+		radial-gradient(circle at 15% 85%, rgba(244, 63, 94, 0.05), transparent 45%),
+		var(--bg-slide);
+}
+
+.slide:nth-child(even) {
+	background: radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.05), transparent 45%),
+		var(--bg-dark);
+}
+
+.slide-inner {
+	width: 100%;
+	max-width: var(--slide-max-w);
+	margin: 0 auto;
+}
+
+/* Slide Header & Numbering */
+.slide-header {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	margin-bottom: 24px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.slide-title-group .slide-kicker {
+	font-size: 0.78rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--accent-primary);
+	display: block;
+	margin-bottom: 4px;
+}
+
+.slide-title-group h2 {
+	font-size: 1.85rem;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+	color: var(--text-main);
+}
+
+.slide-page-num {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	background: rgba(30, 41, 59, 0.8);
+	padding: 4px 12px;
+	border-radius: 6px;
+	border: 1px solid var(--border-color);
+}
+
+/* Slide Footer Navigation (Prev/Next Slide Buttons) */
+.slide-footer-nav {
+	margin-top: 22px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.8rem;
+	color: var(--text-muted);
+}
+
+.slide-nav-btns {
+	display: flex;
+	gap: 8px;
+}
+
+.slide-nav-btn {
+	text-decoration: none;
+	color: var(--text-muted);
+	background: rgba(30, 41, 59, 0.7);
+	border: 1px solid var(--border-color);
+	padding: 5px 12px;
+	border-radius: 6px;
+	font-size: 0.78rem;
+	transition: all 0.2s;
+}
+
+.slide-nav-btn:hover {
+	color: var(--text-main);
+	border-color: var(--accent-primary);
+	background: rgba(56, 189, 248, 0.12);
+}
+
+/* Grids & Cards */
+.grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+}
+
+.grid-3 {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 18px;
+}
+
+.grid-4 {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 16px;
+}
+
+.card {
+	background: var(--bg-card);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 22px;
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+	font-size: 1.12rem;
+	font-weight: 700;
+	margin-bottom: 10px;
+	color: var(--text-main);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.card p,
+.card li {
+	font-size: 0.9rem;
+	line-height: 1.65;
+	color: #cbd5e1;
+}
+
+.card ul {
+	padding-left: 18px;
+}
+
+.card li {
+	margin-bottom: 6px;
+}
+
+.badge {
+	display: inline-block;
+	font-size: 0.74rem;
+	font-weight: 600;
+	padding: 3px 9px;
+	border-radius: 999px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.badge-blue {
+	background: rgba(56, 189, 248, 0.15);
+	color: #38bdf8;
+	border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-red {
+	background: rgba(244, 63, 94, 0.15);
+	color: #fb7185;
+	border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.badge-green {
+	background: rgba(16, 185, 129, 0.15);
+	color: #34d399;
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-amber {
+	background: rgba(245, 158, 11, 0.15);
+	color: #fbbf24;
+	border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-purple {
+	background: rgba(168, 85, 247, 0.15);
+	color: #c084fc;
+	border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* Slide 1: Hero Cover */
+.hero-box {
+	display: grid;
+	grid-template-columns: 1.35fr 1fr;
+	gap: 28px;
+	align-items: center;
+}
+
+.hero-badge-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.hero-title {
+	font-size: 3.1rem;
+	font-weight: 900;
+	line-height: 1.15;
+	letter-spacing: -0.03em;
+	margin-bottom: 14px;
+	background: linear-gradient(95deg, #ffffff 0%, #38bdf8 55%, #fb7185 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+	font-size: 1.1rem;
+	line-height: 1.65;
+	color: #cbd5e1;
+	margin-bottom: 22px;
+}
+
+.kpi-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 14px;
+}
+
+.kpi-card {
+	background: rgba(30, 41, 59, 0.85);
+	border: 1px solid var(--border-color);
+	border-left: 4px solid var(--accent-primary);
+	border-radius: 10px;
+	padding: 16px;
+}
+
+.kpi-card.red {
+	border-left-color: var(--accent-secondary);
+}
+
+.kpi-card.green {
+	border-left-color: var(--accent-green);
+}
+
+.kpi-card.amber {
+	border-left-color: var(--accent-amber);
+}
+
+.kpi-val {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 1.7rem;
+	font-weight: 800;
+	color: var(--text-main);
+	margin-bottom: 2px;
+}
+
+.kpi-label {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+}
+
+/* Pure CSS Tabs for Slide 3 & Slide 4 */
+.css-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.css-tabs input[type="radio"] {
+	display: none;
+}
+
+.css-tabs label.tab-btn {
+	padding: 9px 18px;
+	background: var(--bg-card-alt);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	color: var(--text-muted);
+	font-size: 0.86rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s;
+	user-select: none;
+}
+
+.css-tabs label.tab-btn:hover {
+	color: var(--text-main);
+	border-color: #64748b;
+}
+
+.css-tabs .tab-panel {
+	width: 100%;
+	order: 99;
+	display: none;
+	margin-top: 12px;
+}
+
+#arch-tab1:checked~label[for="arch-tab1"],
+#arch-tab2:checked~label[for="arch-tab2"],
+#arch-tab3:checked~label[for="arch-tab3"],
+#etl-tab1:checked~label[for="etl-tab1"],
+#etl-tab2:checked~label[for="etl-tab2"],
+#etl-tab3:checked~label[for="etl-tab3"] {
+	background: rgba(56, 189, 248, 0.16);
+	color: var(--accent-primary);
+	border-color: var(--accent-primary);
+	box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.25);
+}
+
+#arch-tab1:checked~#arch-panel1,
+#arch-tab2:checked~#arch-panel2,
+#arch-tab3:checked~#arch-panel3,
+#etl-tab1:checked~#etl-panel1,
+#etl-tab2:checked~#etl-panel2,
+#etl-tab3:checked~#etl-panel3 {
+	display: block;
+}
+
+/* Architecture Flow Diagram Box */
+.flow-row {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	gap: 12px;
+	margin: 14px 0;
+}
+
+.flow-step {
+	flex: 1;
+	background: var(--bg-card-alt);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	padding: 15px;
+	position: relative;
+}
+
+.flow-step .step-num {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.72rem;
+	font-weight: 700;
+	color: var(--accent-primary);
+	margin-bottom: 4px;
+	display: block;
+}
+
+.flow-step h4 {
+	font-size: 0.96rem;
+	margin-bottom: 6px;
+	color: var(--text-main);
+}
+
+.flow-step p {
+	font-size: 0.82rem;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.flow-arrow {
+	display: flex;
+	align-items: center;
+	color: var(--accent-primary);
+	font-weight: 700;
+	font-size: 1.2rem;
+}
+
+/* Code Block Styling */
+pre.code-box {
+	background: #090d16;
+	border: 1px solid #1e293b;
+	border-radius: 8px;
+	padding: 14px 16px;
+	overflow-x: auto;
+	font-size: 0.78rem;
+	line-height: 1.55;
+	color: #e2e8f0;
+}
+
+.kw {
+	color: #f472b6;
+}
+
+.fn {
+	color: #38bdf8;
+}
+
+.st {
+	color: #a7f3d0;
+}
+
+.cm {
+	color: #64748b;
+	font-style: italic;
+}
+
+.nm {
+	color: #fbbf24;
+}
+
+/* Data Table */
+.data-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.84rem;
+	margin-top: 8px;
+}
+
+.data-table th,
+.data-table td {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--border-color);
+	text-align: left;
+}
+
+.data-table th {
+	background: rgba(15, 23, 42, 0.7);
+	color: var(--accent-primary);
+	font-weight: 700;
+}
+
+.data-table tr.highlight-row {
+	background: rgba(244, 63, 94, 0.1);
+}
+
+/* Chart Legend */
+.chart-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	font-size: 0.75rem;
+	color: var(--text-muted);
+	margin-top: 8px;
+	justify-content: center;
+}
+
+.legend-item {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.legend-line {
+	width: 18px;
+	height: 3px;
+	display: inline-block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+	.deck-wrapper {
+		height: auto;
+		overflow-y: visible;
+		scroll-snap-type: none;
+	}
+
+	.slide {
+		padding: 80px 20px 40px;
+		min-height: auto;
+	}
+
+	.hero-box,
+	.grid-2,
+	.grid-3,
+	.grid-4 {
+		grid-template-columns: 1fr;
+	}
+
+	.flow-row {
+		flex-direction: column;
+	}
+
+	.flow-arrow {
+		justify-content: center;
+		transform: rotate(90deg);
+	}
+
+	.top-nav,
+	.slide-dots {
+		display: none;
+	}
+}
+
+/* Print / PDF Export Styles */
+@media print {
+
+	.top-bar,
+	.slide-dots,
+	.slide-footer-nav {
+		display: none !important;
+	}
+
+	.deck-wrapper {
+		height: auto !important;
+		overflow: visible !important;
+		scroll-snap-type: none !important;
+	}
+
+	.slide {
+		min-height: auto !important;
+		padding: 24px 0 !important;
+		page-break-after: always;
+		background: #fff !important;
+		color: #000 !important;
+		border-bottom: none !important;
+	}
+
+	.card,
+	.flow-step,
+	.kpi-card {
+		background: #fff !important;
+		color: #000 !important;
+		border: 1px solid #ccc !important;
+		box-shadow: none !important;
+	}
+
+	.hero-title,
+	h2,
+	h3,
+	h4,
+	p,
+	li,
+	td,
+	th,
+	.kpi-val {
+		color: #000 !important;
+		-webkit-text-fill-color: #000 !important;
+	}
+
+	.css-tabs .tab-panel {
+		display: block !important;
+		margin-bottom: 16px;
+	}
+}
